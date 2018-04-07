@@ -1,3 +1,32 @@
+
+
+**Apr.7 **
+
+* feed our dataset and input into the rnn-rbm
+* Problem:
+  * why the matrix is too dense if we use timestep of 32
+  * how to **constrain** that
+  * probably we need to totally understand the network
+
+****
+
+* **Milestone:**
+  * What we hv done:
+    * dataset
+    * input manipulation
+    * got some results in rnn-rbm
+    * (hvnt done yet) design the update of cnn
+  * to do:
+    * implement rnn cnn rbm
+    * put some constraints in generation
+    * smooth the music output
+
+****
+
+
+
+
+
 **Apr. 4**
 
 * Finish Input Matrix generation
