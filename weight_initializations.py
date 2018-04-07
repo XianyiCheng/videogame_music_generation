@@ -3,19 +3,19 @@ import numpy as np
 from tqdm import tqdm
 import RBM
 import rnn_rbm #The hyperparameters of the RBM and RNN-RBM are specified in the rnn_rbm file
-import midi_manipulation 
+import input_manipulation
 
 """
-	This file stores the code for initializing the weights of the RNN-RBM. We initialize the parameters of the RBMs by 
+	This file stores the code for initializing the weights of the RNN-RBM. We initialize the parameters of the RBMs by
 	training them directly on the data with CD-k. We initialize the parameters of the RNN with small weights.
 """
 
 num_epochs = 100 #The number of epochs to train the RBM
-lr = 0.01 #The learning rate for the RBM
+lr = 0.001 #The learning rate for the RBM
 
 def main():
 	#Load the Songs
-	songs = midi_manipulation.get_songs('Pop_Music_Midi')
+	songs = input_manipulation.get_songs('Game_Music_Midi')
 
 
 	x  = tf.placeholder(tf.float32, [None, rnn_rbm.n_visible], name="x") #The placeholder variable that holds our data
@@ -30,8 +30,8 @@ def main():
 	u0  = tf.Variable(tf.zeros([1, rnn_rbm.n_hidden_recurrent], tf.float32), name="u0") #The initial state of the RNN
 
 	#The RBM bias vectors. These matrices will get populated during rnn-rbm training and generation
-	BH_t = tf.Variable(tf.ones([1, rnn_rbm.n_hidden],  tf.float32), name="BH_t") 
-	BV_t = tf.Variable(tf.ones([1, rnn_rbm.n_visible],  tf.float32), name="BV_t") 
+	BH_t = tf.Variable(tf.ones([1, rnn_rbm.n_hidden],  tf.float32), name="BH_t")
+	BV_t = tf.Variable(tf.ones([1, rnn_rbm.n_visible],  tf.float32), name="BV_t")
 
 	#Build the RBM optimization
 	saver = tf.train.Saver()

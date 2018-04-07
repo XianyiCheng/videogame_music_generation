@@ -6,15 +6,15 @@ from tensorflow.python.ops import control_flow_ops
 from tqdm import tqdm
 
 import RBM
-import midi_manipulation
+import input_manipulation
 
 
 """
     This file contains the TF implementation of the RNN-RBM, as well as the hyperparameters of the model
 """
 
-note_range         = midi_manipulation.span #The range of notes that we can produce
-n_visible          = 2*note_range*midi_manipulation.num_timesteps #The size of each data vector and the size of the RBM visible layer
+note_range         = input_manipulation.span_drum + input_manipulation.span_main + 2 #The range of notes that we can produce
+n_visible          = note_range*input_manipulation.num_timesteps #The size of each data vector and the size of the RBM visible layer
 n_hidden           = 50 #The size of the RBM hidden layer
 n_hidden_recurrent = 100 #The size of each RNN hidden layer
 
@@ -89,7 +89,7 @@ def rnnrbm():
 
         """
         Uarr = tf.scan(rnn_recurrence, x, initializer=u0)
-        U = Uarr[int(np.floor(prime_length/midi_manipulation.num_timesteps)), :, :]
+        U = Uarr[int(np.floor(prime_length/input_manipulation.num_timesteps)), :, :]
         cond = lambda count, k, u, primer, xg, m: tf.less(count,k)
         [_, _, _, _, _, music] = tf.while_loop(cond, generate_recurrence,
                                                         [tf.constant(1, tf.int32), tf.constant(num), U,

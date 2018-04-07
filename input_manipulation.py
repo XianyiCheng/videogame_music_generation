@@ -14,7 +14,7 @@ span_drum = upperBound_drum - lowerBound_drum #The note range
 
 note_res = 60 #The note resolution, number of ticks at one row of note play matrix
 
-num_timesteps      = 5 #The number of note timesteps that we produce with each RNN
+num_timesteps      = 32 #The number of note timesteps that we produce with each RNN
 
 def midiToNotePlayMatrix(midifile, squash=True, span_main=span_main, span_drum = span_drum):
     pattern = midi.read_midifile(midifile)
@@ -27,7 +27,7 @@ def midiToNotePlayMatrix(midifile, squash=True, span_main=span_main, span_drum =
             ticks[i-1] = ticks[i-1] + pattern[i][j].tick
 
     num_notes = math.ceil(max(ticks)/note_res)
-    NotePlayMatrix = np.zeros([num_notes,span_drum + span_main + 1])
+    NotePlayMatrix = np.zeros([num_notes,span_drum + span_main + 2])
     note_pos = 0
 
     for i in range(len(main_track)):
@@ -47,10 +47,10 @@ def midiToNotePlayMatrix(midifile, squash=True, span_main=span_main, span_drum =
                 NotePlayMatrix[note_pos:,evt.pitch - lowerBound_drum + span_main + 1] = 1
             if evt.velocity == 0:
                 NotePlayMatrix[note_pos:,evt.pitch - lowerBound_drum + span_main + 1] = 0
-
+    """
     if np.sum(NotePlayMatrix[-1,:]) != 0:
-        NotePlayMatrix = np.vstick((NotePlayMatrix,np.zeros([span_drum + span_main + 1])))
-
+        NotePlayMatrix = np.vstack((NotePlayMatrix,np.zeros([span_drum + span_main + 2])))
+    """
     return NotePlayMatrix
 
 
@@ -134,12 +134,12 @@ def notePlayMatrixToMidi(NotePlayMatrix, name = "example"):
 
 def write_song(path, song):
     #Reshape the song into a format that midi_manipulation can understand, and then write the song to disk
-    song = np.reshape(song, (song.shape[0]*num_timesteps, 2*span))
-    noteStateMatrixToMidi(song, name=path)
+    song = np.reshape(song, (song.shape[0]*num_timesteps, span_drum + span_main + 2))
+    notePlayMatrixToMidi(song, name=path)
 
 def get_song(path):
     #Load the song and reshape it to place multiple timesteps next to each other
-    song = np.array(midiToNoteStateMatrix(path))
+    song = midiToNotePlayMatrix(path)
     song = song[:int(np.floor(song.shape[0]/num_timesteps)*num_timesteps)]
     song = np.reshape(song, [int(song.shape[0]/num_timesteps), song.shape[1]*num_timesteps])
     return song
