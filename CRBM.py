@@ -61,7 +61,7 @@ def get_free_energy_cost(x, W, bv, bh, k):
 
     def F(xx):
         #The function computes the free energy of a visible vector.
-        hh = tf.nn.convolution(xx.reshape([1,num_timesteps,span,0]),W,padding = 'VALID',strides = [conv_strides,1])
+        hh = crbm_inference(xx,W,bh)
         return -tf.reduce_sum(tf.log(1 + tf.exp(hh + bh)), 1) - tf.reduce_sum(tf.matmul(xx, tf.transpose(bv)))
 
     #The cost is based on the difference in free energy between x and xsample

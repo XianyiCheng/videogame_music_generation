@@ -1,2 +1,2 @@
-model_checkpoint_path: "epoch_4.ckpt"
-all_model_checkpoint_paths: "epoch_4.ckpt"
+model_checkpoint_path: "initialized.ckpt"
+all_model_checkpoint_paths: "initialized.ckpt"

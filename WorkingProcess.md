@@ -1,4 +1,14 @@
+##### Apr.17
 
+Division of Work:
+
+**Yutings**
+
+* !! number & size of convolutional filters (by music nature)
+* !! enforce sparsity to the crbm-visible-layer
+* learning rate & epoch# for CRBM ('lr' & 'num_epochs' in *weight_intialization.py*  )
+* learning rate for rnn-crbm: 'alpha = min(0.001, 0.0001/(float(i)))' in *rnn_rbm_train.py*
+* batch_size  in *rnn_rbm_train.py*
 
 **Apr.7 **
 
