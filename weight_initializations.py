@@ -11,7 +11,7 @@ import input_manipulation
 """
 
 num_epochs = 100 #The number of epochs to train the RBM
-lr = 0.001 #The learning rate for the RBM
+lr = 0.01 #The learning rate for the RBM
 
 def main():
 	#Load the Songs

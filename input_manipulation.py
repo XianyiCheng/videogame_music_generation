@@ -14,7 +14,7 @@ span_drum = upperBound_drum - lowerBound_drum #The note range
 
 note_res = 60 #The note resolution, number of ticks at one row of note play matrix
 
-num_timesteps      = 32 #The number of note timesteps that we produce with each RNN
+num_timesteps      = 5 #The number of note timesteps that we produce with each RNN
 
 def midiToNotePlayMatrix(midifile, squash=True, span_main=span_main, span_drum = span_drum):
     pattern = midi.read_midifile(midifile)

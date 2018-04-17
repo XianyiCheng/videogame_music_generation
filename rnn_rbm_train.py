@@ -13,7 +13,7 @@ import input_manipulation
 
 batch_size = 100 #The number of trianing examples to feed into the rnn_rbm at a time
 epochs_to_save = 5 #The number of epochs to run between saving each checkpoint
-saved_weights_path = "parameter_checkpoints/epoch_4.ckpt" #The path to the initialized weights checkpoint file
+saved_weights_path = "parameter_checkpoints/initialized.ckpt" #The path to the initialized weights checkpoint file
 
 def main(num_epochs):
     #First, we build the model and get pointers to the model parameters
@@ -47,7 +47,7 @@ def main(num_epochs):
             for s_ind, song in enumerate(songs):
                 for i in range(1, len(song), batch_size):
                     tr_x = song[i:i + batch_size]
-                    alpha = min(0.000001, 0.0001/(float(i))) #We decrease the learning rate according to a schedule.
+                    alpha = min(0.001, 0.0001/(float(i))) #We decrease the learning rate according to a schedule.
                     _, C = sess.run([updt, cost], feed_dict={x: tr_x, lr: alpha})
                     costs.append(C)
             #Print the progress at epoch
