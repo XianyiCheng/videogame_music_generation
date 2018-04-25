@@ -10,20 +10,31 @@ import input_manipulation
 	training them directly on the data with CD-k. We initialize the parameters of the RNN with small weights.
 """
 
-num_epochs = 100 #The number of epochs to train the RBM
-lr = 0.01 #The learning rate for the RBM
+num_epochs = 100 #The number of epochs to train the CRBM
+lr = 0.01 #The learning rate for the CRBM
+
+'''
+num_conv_filters = 8
+conv_strides = 2
+span = 123
+num_timesteps = 32
+'''
+size_conv_filters = 4
 
 def main():
 	#Load the Songs
 	songs = input_manipulation.get_songs('Game_Music_Midi')
-
-
 	x  = tf.placeholder(tf.float32, [None, rnn_rbm.n_visible], name="x") #The placeholder variable that holds our data
+
+	#parameters of CRBM
 	W   = tf.Variable(tf.random_normal([rnn_rbm.n_visible, rnn_rbm.n_hidden], 0.01), name="W") #The weight matrix of the RBM
-	Wuh = tf.Variable(tf.random_normal([rnn_rbm.n_hidden_recurrent, rnn_rbm.n_hidden], 0.0001), name="Wuh")  #The RNN -> RBM hidden weight matrix
 	bh  = tf.Variable(tf.zeros([1, rnn_rbm.n_hidden], tf.float32), name="bh") #The RNN -> RBM hidden bias vector
-	Wuv = tf.Variable(tf.random_normal([rnn_rbm.n_hidden_recurrent, rnn_rbm.n_visible], 0.0001), name="Wuv") #The RNN -> RBM visible weight matrix
 	bv  = tf.Variable(tf.zeros([1, rnn_rbm.n_visible], tf.float32), name="bv")#The RNN -> RBM visible bias vector
+
+
+	#parameters related to RNN
+	Wuh = tf.Variable(tf.random_normal([rnn_rbm.n_hidden_recurrent, rnn_rbm.n_hidden], 0.0001), name="Wuh")  #The RNN -> RBM hidden weight matrix
+	Wuv = tf.Variable(tf.random_normal([rnn_rbm.n_hidden_recurrent, rnn_rbm.n_visible], 0.0001), name="Wuv") #The RNN -> RBM visible weight matrix
 	Wvu = tf.Variable(tf.random_normal([rnn_rbm.n_visible, rnn_rbm.n_hidden_recurrent], 0.0001), name="Wvu") #The data -> RNN weight matrix
 	Wuu = tf.Variable(tf.random_normal([rnn_rbm.n_hidden_recurrent, rnn_rbm.n_hidden_recurrent], 0.0001), name="Wuu") #The RNN hidden unit weight matrix
 	bu  = tf.Variable(tf.zeros([1, rnn_rbm.n_hidden_recurrent],  tf.float32), name="bu")   #The RNN hidden unit bias vector

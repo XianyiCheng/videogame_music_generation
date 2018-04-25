@@ -1,3 +1,13 @@
+##### Apr.24
+
+Timeline:
+
+* before 29th: poster (do in weekend)
+
+##### Apr.19
+
+* gibbs_sampling, the new prob is too high
+
 ##### Apr.17
 
 Division of Work:
@@ -10,7 +20,7 @@ Division of Work:
 * learning rate for rnn-crbm: 'alpha = min(0.001, 0.0001/(float(i)))' in *rnn_rbm_train.py*
 * batch_size  in *rnn_rbm_train.py*
 
-**Apr.7 **
+#####Apr.7 
 
 * feed our dataset and input into the rnn-rbm
 * Problem:
