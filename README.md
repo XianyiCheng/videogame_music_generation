@@ -5,17 +5,17 @@ Our code is modified based on the rnn rbm code in https://github.com/dshieble/Mu
 
 
 
-to train rnn-rbm:
+to train rnn-crbm:
 
-python weight_initialization.py
+python crbm_weight_initializations.py
 
-python rnn_rbm_train.py <num_epochs>
+python rcrbm_train.py <num_epochs>
 
 
 
 to generate music:
 
-python rnn_rbm_generate.py <path_to_ckpt_file>
+python rcrbm_generate.py
 
 (parameter_checkpoints/xxx.ckpt)
 
