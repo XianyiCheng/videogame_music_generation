@@ -53,6 +53,18 @@ def gibbs_sample(x, W, bv, bh, k):
 def free_energy(x, h, W, bv, bh):
     return -tf.reduce_sum(tf.log(1 + tf.exp(h))) - tf.reduce_sum(tf.matmul(x, tf.transpose(bv)))
 
+def free_energy_cost(x, x_sample, W, bv, bh):
+    #We use this function in training to get the free energy cost of the RBM. We can pass this cost directly into TensorFlow's optimizers
+
+    def F(xx):
+        #The function computes the free energy of a visible vector.
+        hh = crbm_inference(xx,W,bh)
+        return free_energy(xx, hh, W, bv, bh)
+
+    #The cost is based on the difference in free energy between x and xsample
+    cost = tf.reduce_mean(tf.subtract(F(x), F(x_sample)))
+    return cost
+
 def get_free_energy_cost(x, W, bv, bh, k):
     #We use this function in training to get the free energy cost of the RBM. We can pass this cost directly into TensorFlow's optimizers
     #First, draw a sample from the RBM
