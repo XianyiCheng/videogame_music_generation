@@ -41,10 +41,8 @@ def recurrence(k, u_tm1, x_t, W, bh, bv, Wuh, Wuv, Wvu, Wuu, bu):
     cost = CRBM.free_energy_cost(x_t, x_out, W, bv_t, bh_t)
     return u_t, x_out, cost
 
-
 class rnncrbm:
-    k = 5
-
+    k = 1
     def __init__(self, W, bh, bv, Wuh, Wuv, Wvu, Wuu, bu, utm1):
         self.xt  = tf.placeholder(tf.float32, [num_timesteps, span], name="xt")
         self.lr  = tf.placeholder(tf.float32)
@@ -62,3 +60,11 @@ class rnncrbm:
     def compute_cost(self):
         self.utm1, _, self.cost = recurrence(self.k, self.utm1, self.xt, self.W, self.bh, self.bv, self.Wuh, self.Wuv, self.Wvu, self.Wuu, self.bu)
         return self.cost
+
+    def generate_music(self, music, T):
+        vt = tf.zeros([num_timesteps, span], tf.float32)
+        for i in range(T):
+            [self.utm1, vt, _] = recurrence(self.k, self.utm1, vt, self.W, self.bh, self.bv, self.Wuh, self.Wuv, self.Wvu, self.Wuu, self.bu)
+            vt = tf.reshape(vt,[num_timesteps, span])
+            music.append(vt)
+        return music

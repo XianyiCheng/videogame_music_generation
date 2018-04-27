@@ -23,16 +23,16 @@ epochs_to_save = 5 #The number of epochs to run between saving each checkpoint
 saved_weights_path = "parameter_checkpoints/initialized.ckpt" #The path to the initialized weights checkpoint file
 
 def main(num_epochs):
-    W   = tf.Variable(tf.truncated_normal([size_conv_filters, span, 1, num_conv_filters], 0.001), name="W") #The weight matrix of the RBM
-    bh  = tf.Variable(tf.zeros([hidden_width,num_conv_filters], tf.float32), name="bh") #The RNN -> RBM hidden bias vector
-    bv  = tf.Variable(tf.zeros([num_timesteps, span], tf.float32), name="bv")#The RNN -> RBM visible bias vector
+    W   = tf.Variable(tf.truncated_normal([size_conv_filters, span, 1, num_conv_filters], 0.001)) #The weight matrix of the RBM
+    bh  = tf.Variable(tf.zeros([hidden_width,num_conv_filters], tf.float32)) #The RNN -> RBM hidden bias vector
+    bv  = tf.Variable(tf.zeros([num_timesteps, span], tf.float32))#The RNN -> RBM visible bias vector
     #parameters related to RNN
-    Wuh = tf.Variable(tf.random_normal([n_hidden_recurrent, int(hidden_width*num_conv_filters)], 0.0001), name="Wuh")  #The RNN -> RBM hidden weight matrix
-    Wuv = tf.Variable(tf.random_normal([n_hidden_recurrent, int(num_timesteps*span)], 0.0001), name="Wuv") #The RNN -> RBM visible weight matrix
-    Wvu = tf.Variable(tf.random_normal([int(num_timesteps*span), n_hidden_recurrent], 0.0001), name="Wvu") #The data -> RNN weight matrix
-    Wuu = tf.Variable(tf.random_normal([n_hidden_recurrent, n_hidden_recurrent], 0.0001), name="Wuu") #The RNN hidden unit weight matrix
-    bu  = tf.Variable(tf.zeros([1, n_hidden_recurrent],  tf.float32), name="bu")   #The RNN hidden unit bias vector
-    utm1 = tf.Variable(tf.zeros([1, n_hidden_recurrent], tf.float32), name="ut")
+    Wuh = tf.Variable(tf.random_normal([n_hidden_recurrent, int(hidden_width*num_conv_filters)], 0.0001))  #The RNN -> RBM hidden weight matrix
+    Wuv = tf.Variable(tf.random_normal([n_hidden_recurrent, int(num_timesteps*span)], 0.0001)) #The RNN -> RBM visible weight matrix
+    Wvu = tf.Variable(tf.random_normal([int(num_timesteps*span), n_hidden_recurrent], 0.0001)) #The data -> RNN weight matrix
+    Wuu = tf.Variable(tf.random_normal([n_hidden_recurrent, n_hidden_recurrent], 0.0001)) #The RNN hidden unit weight matrix
+    bu  = tf.Variable(tf.zeros([1, n_hidden_recurrent],  tf.float32))   #The RNN hidden unit bias vector
+    utm1 = tf.Variable(tf.zeros([1, n_hidden_recurrent], tf.float32))
 
     rcrbm = rnncrbm(W, bh, bv, Wuh, Wuv, Wvu, Wuu, bu, utm1)
     #The trainable variables include the weights and biases of the RNN and the RBM, as well as the initial state of the RNN
