@@ -104,6 +104,19 @@ def get_cd_update(x, W, bv, bh, k, lr):
 
     return W_, bv_, bh_
 
+def cnn_update(x, W, bv, bh, lr):
+    h = crbm_inference(x,W,bh)
+    xs = crbm_reconstruct(h,W,bv)
+    mseloss = tf.losses.mean_squared_error(xs,x)
+    W_ = tf.multiply(-lr,tf.gradients(mseloss, W, stop_gradients = W))
+    bh_ = tf.multiply(-lr,tf.gradients(mseloss, bh, stop_gradients = bh))
+    bv_ = tf.multiply(-lr,tf.gradients(mseloss, bv, stop_gradients = bv))
+    W_ = tf.reshape(W_,W.shape)
+    bv_ = tf.reshape(bv_, bv.shape)
+    bh_ = tf.reshape(bh_,bh.shape)
+    updt = [W.assign_add(W_), bv.assign_add(bv_), bh.assign_add(bh_)]
+    return updt, mseloss
+
 
 def get_cd_update_batch(X, W, bv, bh, k, lr):
     #This is the contrastive divergence algorithm.
