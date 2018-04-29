@@ -1,3 +1,19 @@
+##### Apt.28
+
+**Sound effect:**
+
+Main track:
+
+<img src="./pic/main_config.png" height="300px" />
+
+Drum track: Boutique 78 GB or 
+
+<img src="./pic/drum_config.png" height="300px" />
+
+
+
+
+
 ##### Apr.24
 
 Timeline:

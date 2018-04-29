@@ -30,6 +30,7 @@ def recurrence(k, u_tm1, x_t, W, bh, bv, Wuh, Wuv, Wvu, Wuu, bu):
     bh_t = hidden_bias_recurrence(u_tm1, Wuh, bh)
     x_out = CRBM.gibbs_sample(x_t, W, bv_t, bh_t, k=1)
     u_t  = rnn_recurrence(u_tm1, x_out, Wvu, Wuu, bu)
+    #cost = tf.losses.mean_squared_error(x_t,x_out)
     cost = CRBM.free_energy_cost(x_t, x_out, W, bv_t, bh_t)
     return u_t, x_out, cost
 

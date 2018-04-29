@@ -49,7 +49,7 @@ def gibbs_sample(x, W, bv, bh, k):
     #[_, _, x_sample] = control_flow_ops.While(lambda count, num_iter, *args: count < num_iter, gibbs_step, [ct, tf.constant(k), x], 1, False)
 
     #We need this in order to stop tensorflow from propagating gradients back through the gibbs step
-    x_sample = tf.stop_gradient(x_sample)
+    #x_sample = tf.stop_gradient(x_sample)
     return x_sample
 
 def free_energy(x, h, W, bv, bh):
