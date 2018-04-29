@@ -128,7 +128,7 @@ def notePlayMatrixToMidi(NotePlayMatrix, name = "example"):
 def write_song(path, song):
     #Reshape the song into a format that midi_manipulation can understand, and then write the song to disk
     song = np.reshape(song, (song.shape[0]*num_timesteps, span_drum + span_main + 2))
-    print(np.sum(song,axis = 1))
+    print(np.sum(song,axis = 0))
     notePlayMatrixToMidi(song, name=path)
 
 def get_song(path):

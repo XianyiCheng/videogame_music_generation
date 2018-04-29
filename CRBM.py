@@ -37,6 +37,8 @@ def gibbs_sample(x, W, bv, bh, k):
         prob_hk = crbm_inference(xk,W,bh)
         hk = sample(prob_hk) #Propagate the visible values to sample the hidden values
         prob_xk = crbm_reconstruct(hk,W,bv)
+        xksum = tf.reduce_sum(prob_xk)
+        prob_xk= tf.concat([prob_xk[:,:76]*0.5*num_timesteps/xksum,prob_xk[:,76:]*1*num_timesteps/xksum],axis=1)
         xk = sample(prob_xk) #Propagate the hidden values to sample the visible values
         return count+1, k, xk
 
